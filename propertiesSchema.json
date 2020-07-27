@@ -1,0 +1,51 @@
+{
+  "$id": "root",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "default": "https://yourDevServiceNowInstanceCanonicalHostname/",
+      "examples": [
+        "https://yourDevServiceNowInstanceCanonicalHostname/"
+      ]
+    },
+    "auth": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "default": "devUsername",
+          "examples": [
+            "devUsername"
+          ]
+        },
+        "password": {
+          "type": "string",
+          "default": "devUserPassword",
+          "examples": [
+            "devUserPassword"
+          ]
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ],
+      "additionalProperties": false
+    },
+    "serviceNowTable": {
+      "type": "string",
+      "default": "change_request",
+      "examples": [
+        "change_request"
+      ]
+    }
+  },
+  "required": [
+    "url",
+    "auth",
+    "serviceNowTable"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,29 @@
+{
+  "$id": "changeRequest",
+  "definitions": {
+    "changeRequest": {
+      "title": "changeTicket",
+      "type": "object",
+      "properties": {
+        "statusCode": {
+          "type": "integer",
+          "default": 200,
+          "examples": [
+            200
+          ]
+        },
+        "body": {
+          "type": "string",
+          "default": "",
+          "examples": [
+            ""
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "statusCode",
+    "body"
+  ]
+}
