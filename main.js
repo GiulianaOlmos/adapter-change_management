@@ -131,7 +131,6 @@ healthcheck(callback) {
       * responseData parameter.
       */
       this.emitOnline();
-      callbackData = result;
       if (callback) {
              callback(responseData);
         } 
