@@ -1,29 +1,59 @@
 {
   "$id": "changeRequest",
   "definitions": {
-    "changeRequest": {
+    "changeTicket": {
       "title": "changeTicket",
       "type": "object",
       "properties": {
-        "statusCode": {
-          "type": "integer",
-          "default": 200,
+        "change_ticket_number": {
+          "type": "string",
+          "description": "The unique change ticket number."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "When true, the ticket is still active.",
+          "default": true,
           "examples": [
-            200
+            true,
+            false
           ]
         },
-        "body": {
-          "type": "string",
-          "default": "",
+        "priority": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "The ticket's priority. A larger number has a greater priority.",
+          "default": 4,
           "examples": [
-            ""
+            4
           ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "work_start": {
+          "type": "string",
+          "description": "The date and time when work begins on the ticket in format: YYYY-MM-DD HH:MM TZ."
+        },
+        "work_end": {
+          "type": "string",
+          "description": "The date and time when work on the ticket completed in format: YYYY-MM-DD HH:MM TZ."
+        },
+        "change_ticket_key": {
+          "type": "string",
+          "description": "The ticket record's key."
         }
-      }
+      },
+      "required": [
+        "change_ticket_number",
+        "active",
+        "priority",
+        "description",
+        "work_start",
+        "work_end",
+        "change_ticket_key"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "statusCode",
-    "body"
-  ]
+  }
 }
