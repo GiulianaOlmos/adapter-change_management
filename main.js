@@ -175,100 +175,74 @@ healthcheck(callback) {
     this.emit(status, { id: this.id });
   }
 
+  /**
+   * @memberof ServiceNowAdapter
+   * @method getRecord
+   * @summary Get ServiceNow Record
+   * @description Retrieves a record from ServiceNow.
+   *
+   * @param {ServiceNowAdapter~requestCallback} callback - The callback that
+   *   handles the response.
+   */
+  getRecord(callback) {
     /**
-     * @memberof ServiceNowAdapter
-     * @method getRecord
-     * @summary Get ServiceNow Record
-     * @description Retrieves a record from ServiceNow.
-     *
-     * @param {ServiceNowAdapter~requestCallback} callback - The callback that
-     *   handles the response.
+     * Write the body for this function.
+     * The function is a wrapper for this.connector's get() method.
+     * Note how the object was instantiated in the constructor().
+     * get() takes a callback function.
      */
-
-    getRecord(callback) {
         this.connector.get((data, error) => {
             if (error) {
-                console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
-                callback(error);
+            callback(data, error);
+            } else {
+                if (data.hasOwnProperty('body')) {
+                var body_array = (JSON.parse(data.body));
+                var num_results = body_array.result.length;
+                var changeTicket = [];
+
+                for(var i = 0; i < num_results; i += 1) {
+                    var result_array = (JSON.parse(data.body).result);
+                    changeTicket.push({"change_ticket_number" : result_array[i].number, "active" : result_array[i].active, "priority" : result_array[i].priority,
+                                    "description" : result_array[i].description, "work_start" : result_array[i].work_start, "work_end" : result_array[i].work_end,
+                                    "change_ticket_key" : result_array[i].sys_id});
+                } 
+                callback(changeTicket, error); 
             }
-            else {
-                let body = null;
-                //log.info(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
-                if (typeof data == 'object') {
-                    if (data.body) {
-                        body = JSON.parse(data.body);
-                        let result = body.result;
-                        result.forEach((obj, index) => {
-                            result[index] = this.getResult(obj);
-                        });
-                        log.info("Retunring " + JSON.stringify(result))
-                        callback(result);
-                        //return result;
-                    }
-                }
-            }
-        });
-    }
+          } 
+      });
+  }
 
-
-
+  /**
+   * @memberof ServiceNowAdapter
+   * @method postRecord
+   * @summary Create ServiceNow Record
+   * @description Creates a record in ServiceNow.
+   *
+   * @param {ServiceNowAdapter~requestCallback} callback - The callback that
+   *   handles the response.
+   */
+  postRecord(callback) {
     /**
-     * @memberof ServiceNowAdapter
-     * @method postRecord
-     * @summary Create ServiceNow Record
-     * @description Creates a record in ServiceNow.
-     *
-     * @param {ServiceNowAdapter~requestCallback} callback - The callback that
-     *   handles the response.
+     * Write the body for this function.
+     * The function is a wrapper for this.connector's post() method.
+     * Note how the object was instantiated in the constructor().
+     * post() takes a callback function.
      */
-
-    postRecord(callback) {
-        this.connector.post((data, error) => {
-            log.info("postRecord started  connectorpost****");
-            if (error) {
-                console.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
-            }
-            else {
-                let result = null;
-                if (typeof data == 'object') {
-                    console.info(JSON.stringify(data));
-                    if (data.body) {
-                        let body = JSON.parse(data.body);
-                        result = body.result;
-                        result = this.getResult(result);
-                    }
-                }
-                callback(result);
-
-            }
-
-        });
-
-    }
-
-
-
-    /**
-     * @memberof ServiceNowAdapter
-     * @method getResult
-     * @summary Build custom result object.
-     * @description Builds a new result object from response data.
-     *
-     * @param {object} responseData - The response json result
-     */
-
-    getResult(responseData) {
-
-        return {
-            'change_ticket_key': responseData.sys_id,
-            'change_ticket_number': responseData.number,
-            'active': responseData.active,
-            'priority': responseData.priority,
-            'description': responseData.description,
-            'work_start': responseData.work_start,
-            'work_end': responseData.work_end
-        };
-
+    this.connector.post((data, error) => {
+          if (error) {
+            //console.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
+            callback(data, error);
+          } else {
+            if (data.hasOwnProperty('body')) {
+              var changeTicket = {};
+              var result_array = (JSON.parse(data.body).result);
+              changeTicket = ({"change_ticket_number" : result_array.number, "active" : result_array.active, "priority" : result_array.priority,
+                                   "description" : result_array.description, "work_start" : result_array.work_start, "work_end" : result_array.work_end,
+                                   "change_ticket_key" : result_array.sys_id});
+              callback(changeTicket, error); 
+            } 
+           }            
+        });    
     }
 }
 
