@@ -10,43 +10,43 @@
   ],
   "methods": [
     {
-        "name": "getRecord",
-        "summary": "Get Change Tickets",
-        "description": "Get the first ServiceNow change management ticket.",
-        "input": [],
-        "output": {
-            "name": "changeTickets",
-            "type": "array",
-            "description": "An array of objects. Each element is a change management ticket document.",
-            "schema": {
-                "type": "array",
-                "items": {
-                    "title": "changeTicket",
-                    "$ref": "changeRequest#/definitions/changeTicket"
-                }
-            }
-        },
-        "roles": [
-            "admin",
-            "engineer",
-            "operator"
-        ],
-        "task": true
+      "name": "getRecord",
+      "summary": "Get Change Tickets",
+      "description": "Get the first ServiceNow change management ticket.",
+      "input": [],
+      "output": {
+        "name": "changeTickets",
+        "type": "array",
+        "description": "An array of objects. Elements are change management ticket documents.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "title": "changeTicket",
+            "$ref": "changeRequest#/definitions/changeTicket"
+           }
+         }
+      },
+      "roles": [
+        "admin",
+        "engineer",
+        "operator"
+      ],
+      "task": true
     },
-        {
+    {
       "name": "postRecord",
-      "summary": "Add new Change Ticket",
-      "description": "Add new ServiceNow change management ticket.",
+      "summary": "Create Change Ticket",
+      "description": "Create a ServiceNow change management ticket.",
       "input": [],
       "output": {
         "name": "changeTicket",
         "type": "object",
-        "description": "The change management ticket document for the newly added change ticket.",
+        "description": "An object return as a change management ticket document.",
         "schema": {
-          "title": "changeTicket",
-          "$ref": "changeRequest#/definitions/changeTicket"
+            "title": "changeTicket",
+            "$ref": "changeRequest#/definitions/changeTicket"
         }
-      },
+      },   
       "roles": [
         "admin",
         "engineer",

@@ -1,4 +1,4 @@
-{
+{{
   "$id": "changeRequest",
   "definitions": {
     "changeTicket": {
